@@ -24,42 +24,6 @@ def play_sound(sound_name):
 def stop_sound():
     pygame.mixer.music.stop()
 
-# Define the Pomodoro Timer class
-class PomodoroTimer:
-    def __init__(self, master):
-        self.master = master
-        self.master.title("Pomodoro Ders Çalışma Sayacı")
-        self.master.configure(bg='black')
-        self.master.resizable(False, False)
-
-        # Set default values
-        self.work_time = 60 * 60  # 25 dakika
-        self.repetitions = 3
-        self.current_time = self.work_time
-        self.running = False
-
-        # Create a canvas for the countdown circle
-        self.canvas = tk.Canvas(master, width=200, height=200, bg='black', highlightthickness=0)
-        self.canvas.pack()
-
-        # Create a label for the countdown timer
-        self.timer_label = tk.Label(master, text=self.format_time(self.current_time), fg='white', bg='black', font=('Helvetica', 48))
-        self.timer_label.pack()
-
-        # Create a combobox for sound selection
-        self.sound_var = tk.StringVar()
-        self.sound_combobox = ttk.Combobox(master, textvariable=self.sound_var, values=list(sounds.keys()), state='readonly')
-        self.sound_combobox.pack()
-
-        # Create start, stop, and reset buttons
-        self.start_button = tk.Button(master, text="Başlat", command=self.start_timer)
-        self.start_button.pack()
-
-        self.stop_button = tk.Button(master, text="Durdur", command=self.stop_timer)
-        self.stop_button.pack()
-
-        self.reset_button = tk.Button(master, text="Sıfırla", command=self.reset_timer)
-        self.reset_button.pack()
 
     def format_time(self, seconds):
         return time.strftime('%M:%S', time.gmtime(seconds))
