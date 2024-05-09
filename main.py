@@ -116,3 +116,11 @@ class PomodoroTimer:
         # Create an empty circle (ring) with a white outline
         self.canvas.create_oval(10, 10, 190, 190, outline='white', width=2)
 
+# Ana pencereyi oluştur
+root = tk.Tk()
+
+# Pomodoro Timer uygulamasını oluştur
+app = PomodoroTimer(root)
+
+# Uygulamayı başlat
+root.mainloop()
