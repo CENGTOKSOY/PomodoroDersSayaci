@@ -33,33 +33,44 @@ class PomodoroTimer:
         self.master.resizable(False, False)
 
         # Set default values
-        self.work_time = 60 * 60  # 25 dakika
-        self.repetitions = 3
+        self.work_time = 25 * 60  # 25 dakika
+        self.break_time = 5 * 60  # 5 dakika
+        self.repetitions = 4
         self.current_time = self.work_time
         self.running = False
+        self.is_break = False
 
         # Create a canvas for the countdown circle
         self.canvas = tk.Canvas(master, width=200, height=200, bg='black', highlightthickness=0)
-        self.canvas.pack()
+        self.canvas.pack(pady=20)
 
         # Create a label for the countdown timer
         self.timer_label = tk.Label(master, text=self.format_time(self.current_time), fg='white', bg='black', font=('Helvetica', 48))
-        self.timer_label.pack()
+        self.timer_label.pack(pady=20)
 
         # Create a combobox for sound selection
         self.sound_var = tk.StringVar()
         self.sound_combobox = ttk.Combobox(master, textvariable=self.sound_var, values=list(sounds.keys()), state='readonly')
-        self.sound_combobox.pack()
+        self.sound_combobox.set("fire")  # Default value
+        self.sound_combobox.pack(pady=10)
+
+        # Create a volume slider
+        self.volume_slider = ttk.Scale(master, from_=0, to=1, orient="horizontal", command=self.set_volume)
+        self.volume_slider.set(0.5)  # Default volume
+        self.volume_slider.pack(pady=10)
 
         # Create start, stop, and reset buttons
-        self.start_button = tk.Button(master, text="Başlat", command=self.start_timer)
-        self.start_button.pack()
+        self.button_frame = tk.Frame(master, bg='black')
+        self.button_frame.pack(pady=10)
 
-        self.stop_button = tk.Button(master, text="Durdur", command=self.stop_timer)
-        self.stop_button.pack()
+        self.start_button = ttk.Button(self.button_frame, text="Başlat", command=self.start_timer)
+        self.start_button.grid(row=0, column=0, padx=5)
 
-        self.reset_button = tk.Button(master, text="Sıfırla", command=self.reset_timer)
-        self.reset_button.pack()
+        self.stop_button = ttk.Button(self.button_frame, text="Durdur", command=self.stop_timer)
+        self.stop_button.grid(row=0, column=1, padx=5)
+
+        self.reset_button = ttk.Button(self.button_frame, text="Sıfırla", command=self.reset_timer)
+        self.reset_button.grid(row=0, column=2, padx=5)
 
     def format_time(self, seconds):
         return time.strftime('%M:%S', time.gmtime(seconds))
@@ -76,14 +87,19 @@ class PomodoroTimer:
             self.canvas.create_oval(10, 10, 190, 190, outline='white', width=2)
             # Create an arc inside the empty circle to represent the countdown
             # Calculate the color transition from white to brown
-            color = self.calculate_color_transition(self.current_time, self.work_time)
-            self.canvas.create_arc(10, 10, 190, 190, start=90, extent=-360 * (self.current_time / self.work_time), outline=color, width=2, style='arc')
+            color = self.calculate_color_transition(self.current_time, self.work_time if not self.is_break else self.break_time)
+            self.canvas.create_arc(10, 10, 190, 190, start=90, extent=-360 * (self.current_time / (self.work_time if not self.is_break else self.break_time)), outline=color, width=2, style='arc')
 
             if self.current_time <= 0:
                 self.stop_timer()
-                if self.repetitions > 0:
-                    self.repetitions -= 1
+                if not self.is_break:
+                    self.is_break = True
+                    self.current_time = self.break_time
+                else:
+                    self.is_break = False
                     self.current_time = self.work_time
+                    self.repetitions -= 1
+                if self.repetitions > 0:
                     self.start_timer()
 
     def calculate_color_transition(self, current_time, total_time):
@@ -116,8 +132,15 @@ class PomodoroTimer:
         # Create an empty circle (ring) with a white outline
         self.canvas.create_oval(10, 10, 190, 190, outline='white', width=2)
 
+    def set_volume(self, val):
+        pygame.mixer.music.set_volume(float(val))
+
 # Ana pencereyi oluştur
 root = tk.Tk()
+
+# Stilleri ayarla
+style = ttk.Style()
+style.theme_use('clam')
 
 # Pomodoro Timer uygulamasını oluştur
 app = PomodoroTimer(root)
