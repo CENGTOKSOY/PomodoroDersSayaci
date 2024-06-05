@@ -24,7 +24,53 @@ def play_sound(sound_name):
 def stop_sound():
     pygame.mixer.music.stop()
 
+# Define the Pomodoro Timer class
+class PomodoroTimer:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("Pomodoro Ders Çalışma Sayacı")
+        self.master.configure(bg='black')
+        self.master.resizable(False, False)
 
+        # Set default values
+        self.work_time = 25 * 60  # 25 dakika
+        self.break_time = 5 * 60  # 5 dakika
+        self.repetitions = 4
+        self.current_time = self.work_time
+        self.running = False
+        self.is_break = False
+
+        # Create a canvas for the countdown circle
+        self.canvas = tk.Canvas(master, width=200, height=200, bg='black', highlightthickness=0)
+        self.canvas.pack(pady=20)
+
+        # Create a label for the countdown timer
+        self.timer_label = tk.Label(master, text=self.format_time(self.current_time), fg='white', bg='black', font=('Helvetica', 48))
+        self.timer_label.pack(pady=20)
+
+        # Create a combobox for sound selection
+        self.sound_var = tk.StringVar()
+        self.sound_combobox = ttk.Combobox(master, textvariable=self.sound_var, values=list(sounds.keys()), state='readonly')
+        self.sound_combobox.set("fire")  # Default value
+        self.sound_combobox.pack(pady=10)
+
+        # Create a volume slider
+        self.volume_slider = ttk.Scale(master, from_=0, to=1, orient="horizontal", command=self.set_volume)
+        self.volume_slider.set(0.5)  # Default volume
+        self.volume_slider.pack(pady=10)
+
+        # Create start, stop, and reset buttons
+        self.button_frame = tk.Frame(master, bg='black')
+        self.button_frame.pack(pady=10)
+
+        self.start_button = ttk.Button(self.button_frame, text="Başlat", command=self.start_timer)
+        self.start_button.grid(row=0, column=0, padx=5)
+
+        self.stop_button = ttk.Button(self.button_frame, text="Durdur", command=self.stop_timer)
+        self.stop_button.grid(row=0, column=1, padx=5)
+
+        self.reset_button = ttk.Button(self.button_frame, text="Sıfırla", command=self.reset_timer)
+        self.reset_button.grid(row=0, column=2, padx=5)
 
     def format_time(self, seconds):
         return time.strftime('%M:%S', time.gmtime(seconds))
@@ -69,9 +115,7 @@ def stop_sound():
         # Return the new color in hexadecimal format
         return f'#{new_red:02x}{new_green:02x}{new_blue:02x}'
 
-
-    
-def start_timer(self):
+    def start_timer(self):
         if not self.running:
             self.running = True
             self.update_timer()
