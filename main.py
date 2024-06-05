@@ -116,35 +116,4 @@ class PomodoroTimer:
         return f'#{new_red:02x}{new_green:02x}{new_blue:02x}'
 
 
-    def start_timer(self):
-        if not self.running:
-            self.running = True
-            self.update_timer()
-            play_sound(self.sound_var.get())
-
-    def stop_timer(self):
-        self.running = False
-        stop_sound()
-
-    def reset_timer(self):
-        self.stop_timer()
-        self.current_time = self.work_time
-        self.timer_label.config(text=self.format_time(self.current_time))
-        # Create an empty circle (ring) with a white outline
-        self.canvas.create_oval(10, 10, 190, 190, outline='white', width=2)
-
-    def set_volume(self, val):
-        pygame.mixer.music.set_volume(float(val))
-
-# Ana pencereyi oluştur
-root = tk.Tk()
-
-# Stilleri ayarla
-style = ttk.Style()
-style.theme_use('clam')
-
-# Pomodoro Timer uygulamasını oluştur
-app = PomodoroTimer(root)
-
-# Uygulamayı başlat
-root.mainloop()
+    
