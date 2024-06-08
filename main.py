@@ -135,15 +135,4 @@ class PomodoroTimer:
     def set_volume(self, val):
         pygame.mixer.music.set_volume(float(val))
 
-# Ana pencereyi oluştur
-root = tk.Tk()
 
-# Stilleri ayarla
-style = ttk.Style()
-style.theme_use('clam')
-
-# Pomodoro Timer uygulamasını oluştur
-app = PomodoroTimer(root)
-
-# Uygulamayı başlat
-root.mainloop()
