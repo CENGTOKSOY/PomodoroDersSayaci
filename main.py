@@ -3,17 +3,7 @@ from tkinter import ttk
 import time
 import pygame
 
-# Initialize Pygame mixer
-pygame.mixer.init()
 
-# Define sound paths
-sounds = {
-    "fire": "fire_sound.mp3",
-    "rain": "rain_sound.mp3",
-    "waves": "waves_sound.mp3",
-    "birds": "birds_sound.mp3",
-    "storm": "storm_sound.mp3"
-}
 
 # Define a function to play background sound
 def play_sound(sound_name):
