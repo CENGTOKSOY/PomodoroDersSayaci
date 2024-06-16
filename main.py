@@ -101,35 +101,7 @@ class PomodoroTimer:
                 if self.repetitions > 0:
                     self.start_timer()
 
-    def calculate_color_transition(self, current_time, total_time):
-        # Define white and brown RGB values
-        white = (255, 255, 255)
-        brown = (165, 42, 42)
-        # Calculate the ratio of the current time to the total time
-        ratio = current_time / total_time
-        # Calculate new RGB values based on the ratio
-        new_red = int(white[0] + (brown[0] - white[0]) * (1 - ratio))
-        new_green = int(white[1] + (brown[1] - white[1]) * (1 - ratio))
-        new_blue = int(white[2] + (brown[2] - white[2]) * (1 - ratio))
-        # Return the new color in hexadecimal format
-        return f'#{new_red:02x}{new_green:02x}{new_blue:02x}'
-
-    def start_timer(self):
-        if not self.running:
-            self.running = True
-            self.update_timer()
-            play_sound(self.sound_var.get())
-
-    def stop_timer(self):
-        self.running = False
-        stop_sound()
-
-    def reset_timer(self):
-        self.stop_timer()
-        self.current_time = self.work_time
-        self.timer_label.config(text=self.format_time(self.current_time))
-        # Create an empty circle (ring) with a white outline
-        self.canvas.create_oval(10, 10, 190, 190, outline='white', width=2)
+    
 
     def set_volume(self, val):
         pygame.mixer.music.set_volume(float(val))
