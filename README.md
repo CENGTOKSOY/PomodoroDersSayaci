@@ -30,7 +30,8 @@ Lütfen ses dosyalarının main.py dosyası ile aynı dizinde bulunduğundan emi
 - fire_sound.mp3
 - rain_sound.mp3
 - waves_sound.mp3
-
+- birds_sound.mp3
+- storm_sound.mp3
 
 Bu dosyaları, adlandırma kurallarına uygun olarak herhangi başka MP3 dosyaları ile değiştirebilirsiniz.
 
